@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "810278346631",
+    "firebase_url": "https://loginproject-57118-default-rtdb.firebaseio.com",
+    "project_id": "loginproject-57118",
+    "storage_bucket": "loginproject-57118.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810278346631:android:8a5a9bd100753a5f007d22",
+        "android_client_info": {
+          "package_name": "com.example.blog_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT3fHegn5W7wis4JrWPbbx3V2vWISslIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810278346631:android:c65324f861064407007d22",
+        "android_client_info": {
+          "package_name": "com.example.login_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT3fHegn5W7wis4JrWPbbx3V2vWISslIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
