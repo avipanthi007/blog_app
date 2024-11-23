@@ -1,8 +1,10 @@
+import 'package:blog_app/core/local_storage/shared_pref.dart';
 import 'package:blog_app/core/utils/custom_toast.dart';
+import 'package:blog_app/services/firebase/firebase_services.dart';
 import 'package:blog_app/src/views/screens/auth/mobile_login.dart';
 import 'package:blog_app/src/views/screens/auth/password_reset_link.dart';
 import 'package:blog_app/src/views/screens/auth/sign_up.dart';
-import 'package:blog_app/src/views/screens/home_screen.dart';
+import 'package:blog_app/src/views/screens/blog_screens/home_screen.dart';
 import 'package:blog_app/src/views/widgets/customTextField.dart';
 import 'package:blog_app/src/views/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,16 +93,9 @@ class _LogInState extends State<LogIn> {
                   label: "Log In",
                   onTap: () {
                     if (formKey.currentState!.validate()) {
-                      _auth
-                          .signInWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) {
-                        Get.to(() => const HomeScreen());
-                        Utils.customToast("Login Success");
-                      }).onError((errore, stackTrace) {
-                        Utils.customToast(errore.toString());
-                      });
+                      FirebaseServices().signInWithEmailPassword(
+                          email: emailController.text,
+                          password: passwordController.text);
                     }
                   },
                 ),
@@ -109,11 +104,7 @@ class _LogInState extends State<LogIn> {
                     const Spacer(),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PasswordResetEmailLink()));
+                          Get.to(() => PasswordResetEmailLink());
                         },
                         child: const Text("Forget Password?"))
                   ],
@@ -129,12 +120,43 @@ class _LogInState extends State<LogIn> {
                         child: const Text("SignUp"))
                   ],
                 ),
+                Divider(),
                 CustomButton(
                   label: "LogIn With Mobile",
                   onTap: () {
                     Get.to(() => const PhoneSignin());
                   },
-                )
+                ),
+                Divider(),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    FirebaseServices().signInWithGoogle();
+                  },
+                  child: Container(
+                      height: 55,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/google_icon.png",
+                            height: 45,
+                            width: 50,
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text("Sign up with Google")
+                        ],
+                      )),
+                ),
+                SizedBox(height: 20),
               ],
             ),
           ),

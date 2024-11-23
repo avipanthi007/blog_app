@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:blog_app/core/local_storage/shared_pref.dart';
 import 'package:blog_app/core/utils/custom_toast.dart';
-import 'package:blog_app/src/views/screens/home_screen.dart';
+import 'package:blog_app/src/views/screens/blog_screens/home_screen.dart';
 import 'package:blog_app/src/views/widgets/customTextField.dart';
 import 'package:blog_app/src/views/widgets/custom_button.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -122,6 +123,7 @@ class _UploadProfileState extends State<UploadProfile> {
                       }).then((value) {
                         Get.to(() => HomeScreen());
                         Utils.customToast("Post Uploaded..!");
+                        
                       }).onError((errore, stacktrace) {
                         Utils.customToast(errore.toString());
                       });

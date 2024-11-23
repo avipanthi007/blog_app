@@ -1,5 +1,5 @@
 import 'package:blog_app/core/utils/custom_toast.dart';
-import 'package:blog_app/src/views/screens/home_screen.dart';
+import 'package:blog_app/src/views/screens/blog_screens/home_screen.dart';
 import 'package:blog_app/src/views/screens/profile/upload_profile.dart';
 import 'package:blog_app/src/views/widgets/customTextField.dart';
 import 'package:blog_app/src/views/widgets/custom_button.dart';
@@ -104,30 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                Divider(),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    height: 55,
-                    width: 100.w,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/google_icon.png",
-                          height: 45,
-                          width: 50,
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text("Sign up with Google")
-                      ],
-                    ))
+                
               ],
             ),
           ),

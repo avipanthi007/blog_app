@@ -1,5 +1,5 @@
 import 'package:blog_app/core/utils/custom_toast.dart';
-import 'package:blog_app/src/views/screens/home_screen.dart';
+import 'package:blog_app/src/views/screens/blog_screens/home_screen.dart';
 import 'package:blog_app/src/views/widgets/customTextField.dart';
 import 'package:blog_app/src/views/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';

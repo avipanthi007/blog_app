@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:blog_app/core/utils/custom_toast.dart';
+import 'package:blog_app/services/firebase/firebase_services.dart';
 import 'package:blog_app/src/views/widgets/customTextField.dart';
 import 'package:blog_app/src/views/widgets/custom_button.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
@@ -23,17 +24,15 @@ class _AddNewBlogState extends State<AddNewBlog> {
   final descriptionController = TextEditingController();
   final categoryController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  File? _image;
+  File? image;
   final picker = ImagePicker();
-  DatabaseReference databaseRef = FirebaseDatabase.instance.ref('Blogs');
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+
   Future pickGalleryImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        image = File(pickedFile.path);
       } else {
         Utils.customToast("Image Not Selected");
       }
@@ -67,11 +66,11 @@ class _AddNewBlogState extends State<AddNewBlog> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.blue),
                           borderRadius: BorderRadius.circular(12)),
-                      child: _image != null
+                      child: image != null
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.file(
-                                _image!.absolute,
+                                image!.absolute,
                                 fit: BoxFit.fill,
                               ),
                             )
@@ -79,8 +78,8 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: 1.2.h,
                 ),
                 CustomTextField(
                   controller: titleController,
@@ -166,38 +165,21 @@ class _AddNewBlogState extends State<AddNewBlog> {
                 const SizedBox(
                   height: 25,
                 ),
-                CustomButton(
-                  label: "ADD",
-                  onTap: () async {
-                    if (formKey.currentState!.validate()) {
-                      firebase_storage.Reference ref = await firebase_storage
-                          .FirebaseStorage.instance
-                          .ref('images/')
-                          .child(
-                              DateTime.now().microsecondsSinceEpoch.toString());
-                      firebase_storage.UploadTask uploadTask =
-                          ref.putFile(_image!.absolute);
-                      await Future.value(uploadTask).then((value) async {
-                        var newUrl = await ref.getDownloadURL();
-                        String id =
-                            DateTime.now().microsecondsSinceEpoch.toString();
-                        databaseRef.child(id).set({
-                          'id': id,
-                          'title': titleController.text,
-                          'category': _selectedValue,
-                          'description': descriptionController.text,
-                          'image': newUrl.toString()
-                        }).then((value) {
-                          Utils.customToast("Post Uploaded..!");
-                          Get.back();
-                        }).onError((errore, stacktrace) {
-                          Utils.customToast(errore.toString());
-                        });
-                      }).onError((errore, stackTrace) {
-                        Utils.customToast(errore.toString());
-                      });
-                    }
-                  },
+                Obx(
+                  () => FirebaseServices().isLoading.value
+                      ? CircularProgressIndicator()
+                      : CustomButton(
+                          label: "ADD",
+                          onTap: () async {
+                            if (formKey.currentState!.validate()) {
+                              FirebaseServices().uploadBlog(
+                                  title: titleController.text,
+                                  description: descriptionController.text,
+                                  category: _selectedValue,
+                                  image: image!);
+                            }
+                          },
+                        ),
                 )
               ],
             ),
